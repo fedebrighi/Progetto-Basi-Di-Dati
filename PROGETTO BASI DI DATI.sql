@@ -1,9 +1,9 @@
 -- *********************************************
--- * Standard SQL generation                   
+-- * SQL MySQL generation                      
 -- *--------------------------------------------
 -- * DB-MAIN version: 11.0.2              
 -- * Generator date: Sep 14 2021              
--- * Generation date: Mon Jul 15 11:34:35 2024 
+-- * Generation date: Mon Jul 15 11:45:23 2024 
 -- * LUN file: C:\Users\ddunl\OneDrive\Desktop\Progetto-Basi-Di-Dati\ER BASI DATI.lun 
 -- * Schema: CHAMPION HUB/Logico-1 
 -- ********************************************* 
@@ -12,11 +12,8 @@
 -- Database Section
 -- ________________ 
 
-create database CHAMPION HUB;
-
-
--- DBSpace Section
--- _______________
+create database CHAMPION_HUB;
+use CHAMPION_HUB;
 
 
 -- Tables Section
@@ -222,131 +219,136 @@ create table TRASMISSIONE (
 
 alter table ALLENATORE add constraint SID_ALLEN_DIRET_FK
      foreign key (Sce_CodiceFiscale)
-     references DIRETTORE_SPORTIVO;
+     references DIRETTORE_SPORTIVO (CodiceFiscale);
 
 alter table ALLENATORE add constraint SID_ALLEN_SQUAD_FK
      foreign key (All_Nome)
-     references SQUADRA;
+     references SQUADRA (Nome);
 
 alter table CONTRIBUZIONE add constraint REF_CONTR_SPONS_FK
      foreign key (NomeSponsor)
-     references SPONSOR;
+     references SPONSOR (Nome);
 
 alter table CONTRIBUZIONE add constraint REF_CONTR_FONDI
      foreign key (IBAN)
-     references FONDI;
+     references FONDI (IBAN);
 
 alter table DATA add constraint REF_DATA_INFO__FK
      foreign key (CodTorneo)
-     references INFO_TORNEO;
+     references INFO_TORNEO (CodTorneo);
 
-alter table DIRETTORE_SPORTIVO add constraint ID_DIRETTORE_SPORTIVO_CHK
-     check(exists(select * from ALLENATORE
-                  where ALLENATORE.Sce_CodiceFiscale = CodiceFiscale)); 
+-- Not implemented
+-- alter table DIRETTORE_SPORTIVO add constraint ID_DIRETTORE_SPORTIVO_CHK
+--     check(exists(select * from ALLENATORE
+--                  where ALLENATORE.Sce_CodiceFiscale = CodiceFiscale)); 
 
-alter table DIRETTORE_SPORTIVO add constraint ID_DIRETTORE_SPORTIVO_CHK
-     check(exists(select * from TRAMITE
-                  where TRAMITE.CodiceDir = CodiceFiscale)); 
+-- Not implemented
+-- alter table DIRETTORE_SPORTIVO add constraint ID_DIRETTORE_SPORTIVO_CHK
+--     check(exists(select * from TRAMITE
+--                  where TRAMITE.CodiceDir = CodiceFiscale)); 
 
 alter table FONDI add constraint REF_FONDI_PRESI_FK
      foreign key (CodicePresidente)
-     references PRESIDENTE;
+     references PRESIDENTE (CodiceFiscale);
 
 alter table FONDI add constraint REF_FONDI_DIRET_FK
      foreign key (CodiceDir)
-     references DIRETTORE_SPORTIVO;
+     references DIRETTORE_SPORTIVO (CodiceFiscale);
 
-alter table GIOCATORE add constraint ID_GIOCATORE_CHK
-     check(exists(select * from NUMERO
-                  where NUMERO.CodiceFiscale = CodiceFiscale)); 
+-- Not implemented
+-- alter table GIOCATORE add constraint ID_GIOCATORE_CHK
+--     check(exists(select * from NUMERO
+--                  where NUMERO.CodiceFiscale = CodiceFiscale)); 
 
 alter table GIOCATORE add constraint REF_GIOCA_SQUAD_FK
      foreign key (NomeSquadra)
-     references SQUADRA;
+     references SQUADRA (Nome);
 
 alter table Infortuni add constraint REF_Infor_TABEL
      foreign key (CodiceTabellino)
-     references TABELLINO_STATISTICHE;
+     references TABELLINO_STATISTICHE (CodiceTabellino);
 
 alter table Marcatori add constraint REF_Marca_TABEL
      foreign key (CodiceTabellino)
-     references TABELLINO_STATISTICHE;
+     references TABELLINO_STATISTICHE (CodiceTabellino);
 
 alter table MERCATO_GIOCATORI add constraint REF_MERCA_GIOCA
      foreign key (CodiceGiocatore)
-     references GIOCATORE;
+     references GIOCATORE (CodiceFiscale);
 
 alter table NUMERO add constraint REF_NUMER_SQUAD
      foreign key (NomeSquadra)
-     references SQUADRA;
+     references SQUADRA (Nome);
 
 alter table NUMERO add constraint SID_NUMER_GIOCA_FK
      foreign key (CodiceFiscale)
-     references GIOCATORE;
+     references GIOCATORE (CodiceFiscale);
 
 alter table PARTITA add constraint REF_PARTI_SQUAD_1_FK
      foreign key (NomeOspite)
-     references SQUADRA;
+     references SQUADRA (Nome);
 
 alter table PARTITA add constraint REF_PARTI_SQUAD_FK
      foreign key (NomeCasa)
-     references SQUADRA;
+     references SQUADRA (Nome);
 
 alter table PARTITA add constraint REF_PARTI_STADI_FK
      foreign key (CodiceStadio)
-     references STADIO;
+     references STADIO (CodiceStadio);
 
 alter table PARTITA add constraint REF_PARTI_DATA_FK
      foreign key (Giorno, Mese, Anno)
-     references DATA;
+     references DATA (Giorno, Mese, Anno);
 
 alter table PARTITA add constraint SID_PARTI_TABEL_FK
      foreign key (CodiceTabellino)
-     references TABELLINO_STATISTICHE;
+     references TABELLINO_STATISTICHE (CodiceTabellino);
 
 alter table SPONSOR_TORNEO add constraint REF_SPONS_INFO__FK
      foreign key (CodTorneo)
-     references INFO_TORNEO;
+     references INFO_TORNEO (CodTorneo);
 
-alter table SQUADRA add constraint ID_SQUADRA_CHK
-     check(exists(select * from ALLENATORE
-                  where ALLENATORE.All_Nome = Nome)); 
+-- Not implemented
+-- alter table SQUADRA add constraint ID_SQUADRA_CHK
+--     check(exists(select * from ALLENATORE
+--                  where ALLENATORE.All_Nome = Nome)); 
 
 alter table STAFF add constraint REF_STAFF_ALLEN_FK
      foreign key (CodiceAll)
-     references ALLENATORE;
+     references ALLENATORE (CodiceFiscale);
 
 alter table SUPERVISIONE add constraint REF_SUPER_PARTI
      foreign key (CodicePartita)
-     references PARTITA;
+     references PARTITA (CodicePartita);
 
 alter table SUPERVISIONE add constraint REF_SUPER_STAFF_FK
      foreign key (CodiceStaff)
-     references STAFF_PARTITA;
+     references STAFF_PARTITA (CodiceFiscale);
 
-alter table TABELLINO_STATISTICHE add constraint ID_TABELLINO_STATISTICHE_CHK
-     check(exists(select * from PARTITA
-                  where PARTITA.CodiceTabellino = CodiceTabellino)); 
+-- Not implemented
+-- alter table TABELLINO_STATISTICHE add constraint ID_TABELLINO_STATISTICHE_CHK
+--     check(exists(select * from PARTITA
+--                  where PARTITA.CodiceTabellino = CodiceTabellino)); 
 
 alter table TABELLINO_STATISTICHE add constraint REF_TABEL_STAFF_FK
      foreign key (CodiceStaff)
-     references STAFF_PARTITA;
+     references STAFF_PARTITA (CodiceFiscale);
 
 alter table TRAMITE add constraint ID_TRAMI_DIRET_FK
      foreign key (CodiceDir)
-     references DIRETTORE_SPORTIVO;
+     references DIRETTORE_SPORTIVO (CodiceFiscale);
 
 alter table TRAMITE add constraint REF_TRAMI_MERCA_FK
      foreign key (CodiceGiocatore, Durata)
-     references MERCATO_GIOCATORI;
+     references MERCATO_GIOCATORI (CodiceGiocatore, Durata);
 
 alter table TRASMISSIONE add constraint REF_TRASM_INFO_
      foreign key (CodTorneo)
-     references INFO_TORNEO;
+     references INFO_TORNEO (CodTorneo);
 
 alter table TRASMISSIONE add constraint REF_TRASM_TELEV_FK
      foreign key (NomeTV)
-     references TELEVISIONE;
+     references TELEVISIONE (Nome);
 
 
 -- Index Section
