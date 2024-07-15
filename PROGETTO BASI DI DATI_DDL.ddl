@@ -3,17 +3,17 @@
 -- *--------------------------------------------
 -- * DB-MAIN version: 11.0.2              
 -- * Generator date: Sep 14 2021              
--- * Generation date: Mon Jul 15 11:45:23 2024 
+-- * Generation date: Mon Jul 15 21:55:53 2024 
 -- * LUN file: C:\Users\ddunl\OneDrive\Desktop\Progetto-Basi-Di-Dati\ER BASI DATI.lun 
--- * Schema: CHAMPION_HUB/Logico-1 
+-- * Schema: CHAMPION HUB/Logico-1 
 -- ********************************************* 
 
 
 -- Database Section
 -- ________________ 
 
-create database CHAMPION_HUB;
-use CHAMPION_HUB;
+create database CHAMPION HUB;
+use CHAMPION HUB;
 
 
 -- Tables Section
@@ -482,110 +482,4 @@ create unique index ID_TRASMISSIONE_IND
 
 create index REF_TRASM_TELEV_IND
      on TRASMISSIONE (NomeTV);
-     
-     -- POPOLAZIONE
-     
--- Inserimento delle squadre
-INSERT INTO squadra (nome, presidente, direttore_sportivo, numero_giocatori, punti_attuali) VALUES
-('Squadra A', 'Presidente A', 'Direttore A', 25, 10),
-('Squadra B', 'Presidente B', 'Direttore B', 22, 15),
-('Squadra C', 'Presidente C', 'Direttore C', 20, 12);
-
-
--- Inserimento dei giocatori
-INSERT INTO giocatore (codice_fiscale, nome, cognome, data_nascita, nazionalita, stipendio, numero_maglia, ruolo, stato, id_squadra) VALUES
-('CF1234567890', 'Mario', 'Rossi', '1990-01-01', 'Italiana', 50000, 10, 'Attaccante', 'Disponibile', (SELECT id FROM squadra WHERE nome = 'Squadra A')),
-('CF0987654321', 'Luigi', 'Verdi', '1988-05-10', 'Italiana', 45000, 8, 'Centrocampista', 'Infortunato', (SELECT id FROM squadra WHERE nome = 'Squadra B')),
-('CF1122334455', 'Paolo', 'Bianchi', '1992-07-20', 'Italiana', 60000, 5, 'Difensore', 'Disponibile', (SELECT id FROM squadra WHERE nome = 'Squadra A'));
-
-
--- Inserimento delle partite
-INSERT INTO partita (squadra_casa, squadra_ospite, risultato) VALUES
-((SELECT id FROM squadra WHERE nome = 'Squadra A'), (SELECT id FROM squadra WHERE nome = 'Squadra B'), '3 - 1'),
-((SELECT id FROM squadra WHERE nome = 'Squadra B'), (SELECT id FROM squadra WHERE nome = 'Squadra C'), '0 - 2'),
-((SELECT id FROM squadra WHERE nome = 'Squadra A'), (SELECT id FROM squadra WHERE nome = 'Squadra C'), '1 - 1');
-
-
--- QUERY
-
--- Inserire una nuova squadra
-INSERT INTO squadra (nome, presidente, direttore_sportivo, numero_giocatori, punti_attuali) 
-VALUES (?, ?, ?, 25, 0);
-
--- Scambiare giocatori tra due squadre
-SELECT squadra_id INTO @squadra_1 FROM giocatori WHERE id = ?;
-SELECT squadra_id INTO @squadra_2 FROM giocatori WHERE id = ?;
-
-UPDATE giocatori
-SET squadra_id = CASE
-	WHEN id = ? THEN @squadra_2
-    WHEN id = ? THEN @squadra_1
-    ELSE squadra_id
-END
-WHERE id IN (?,?);
-
-
--- Inserire/togliere giocatori dalle squadre
-INSERT INTO giocatore (codice_fiscale, nome, cognome, data_nascita, nazionalita, stipendio, numero_maglia, ruolo, stato, id_squadra) 
-VALUES (?,?,?,?,?,?,?,?, 'Disponibile', (SELECT id FROM squadra WHERE nome = ? ));
-
-DELETE FROM giocatore WHERE codice_fiscale = ?;
-
--- Togliere dal torneo squadre retrocesse
-DELETE FROM squadra WHERE punti_attuali < L;
-
--- Bloccare/Sbloccare un giocatore espulso
-UPDATE giocatore SET stato = 'Espulso' WHERE codice_fiscale = ?;
-
-UPDATE giocatore SET stato = 'Disponibile' WHERE codice_fiscale = ?;
-
--- Registrare i dettagli delle partite
-INSERT INTO partita (squadra_casa, squadra_ospite, risultato) 
-VALUES ((SELECT id FROM squadra WHERE nome = ?), (SELECT id FROM squadra WHERE nome = ?), ?);
-
--- Calcolo dei punti di ogni squadra
--- Aggiornare i punti delle squadre di casa , NO PAREGGIO
-UPDATE squadra s
-JOIN partita p ON s.id = p.squadra_casa
-SET s.punti_attuali = s.punti_attuali + CASE
-    WHEN SUBSTRING_INDEX(p.risultato, ' - ', 1) > SUBSTRING_INDEX(p.risultato, ' - ', -1) THEN 3
-    ELSE 0
-END;
-
--- Aggiornare i punti delle squadre ospiti
-UPDATE squadra s
-JOIN partita p ON s.id = p.squadra_ospite
-SET s.punti_attuali = s.punti_attuali + CASE
-    WHEN SUBSTRING_INDEX(p.risultato, ' - ', -1) > SUBSTRING_INDEX(p.risultato, ' - ', 1) THEN 3
-    ELSE 0
-END;
-
--- Registrazione degli infortuni
-UPDATE giocatore SET stato = 'Infortunato' WHERE codice_fiscale = ?;
-
--- Gestione degli sponsor delle squadre
-INSERT INTO sponsor (nome, id_squadra) 
-VALUES (?, (SELECT id FROM squadra WHERE nome = ? ));
-
--- Visualizzazione delle migliori statistiche
-SELECT * FROM giocatore ORDER BY stipendio DESC LIMIT 10; -- Ad esempio, i giocatori con il più alto stipendio
-
--- Visualzzazione della classifica
-SELECT * FROM squadra ORDER BY punti_attuali DESC;
-
--- Visualizzazione dei giocatori infortunati
-SELECT * FROM giocatore WHERE stato = 'Infortunato';
-
--- Visualizzazione del proprio registro transazioni
-SELECT * FROM transazioni WHERE id_squadra = (SELECT id FROM squadra WHERE nome = ?);
-
--- Visualizzazione del calendario del campionato
-SELECT p.*, sc.nome AS squadra_casa_nome, so.nome AS squadra_ospite_nome 
-FROM partita p 
-JOIN squadra sc ON p.squadra_casa = sc.id 
-JOIN squadra so ON p.squadra_ospite = so.id 
-ORDER BY p.data_partita;
-
--- Visualizzazione del resoconto dei ricavi del torneo
-SELECT SUM(entrate) AS totale_ricavi FROM partite; -- Supponendo che ci sia una colonna "entrate" nella tabella delle partite
 
