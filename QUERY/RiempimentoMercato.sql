@@ -1,0 +1,4 @@
+INSERT INTO mercato_giocatori (CodiceGiocatore, Durata, Costo) VALUES 
+('CF0987654321', '2024-2026', '5000000'),
+('CF1122334455', '2023-2025', '7500000'),
+('CF1234567890', '2025-2028', '10000000');

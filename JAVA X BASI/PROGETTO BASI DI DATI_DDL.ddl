@@ -3,7 +3,7 @@
 -- *--------------------------------------------
 -- * DB-MAIN version: 11.0.2              
 -- * Generator date: Sep 14 2021              
--- * Generation date: Tue Jul 16 16:15:25 2024 
+-- * Generation date: Mon Jul 15 21:55:53 2024 
 -- * LUN file: C:\Users\ddunl\OneDrive\Desktop\Progetto-Basi-Di-Dati\ER BASI DATI.lun 
 -- * Schema: CHAMPION HUB/Logico-1 
 -- ********************************************* 
@@ -20,197 +20,197 @@ use CHAMPION_HUB;
 -- _____________ 
 
 create table ALLENATORE (
-     CodiceFiscale char(16) not null,
-     Sce_CodiceFiscale char(16) not null,
-     All_Nome char(100) not null,
-     Nome char(100) not null,
-     Cognome char(100) not null,
-     DataNascita char(100) not null,
-     Nazionalita char(100) not null,
-     Stipendio char(100) not null,
+     CodiceFiscale char(1) not null,
+     Sce_CodiceFiscale char(1) not null,
+     All_Nome char(1) not null,
+     Nome char(1) not null,
+     Cognome char(1) not null,
+     DataNascita char(1) not null,
+     Nazionalita char(1) not null,
+     Stipendio char(1) not null,
      constraint ID_ALLENATORE_ID primary key (CodiceFiscale),
      constraint SID_ALLEN_DIRET_ID unique (Sce_CodiceFiscale),
      constraint SID_ALLEN_SQUAD_ID unique (All_Nome));
 
 create table CONTRIBUZIONE (
-     IBAN char(100) not null,
-     NomeSponsor char(100) not null,
+     IBAN char(1) not null,
+     NomeSponsor char(1) not null,
      constraint ID_CONTRIBUZIONE_ID primary key (IBAN, NomeSponsor));
 
 create table DATA (
-     Giorno char(2) not null,
-     Mese char(2) not null,
-     Anno char(4) not null,
-     CodTorneo char(100) not null,
+     Giorno char(1) not null,
+     Mese char(1) not null,
+     Anno char(1) not null,
+     CodTorneo char(1) not null,
      constraint ID_DATA_ID primary key (Giorno, Mese, Anno));
 
 create table DIRETTORE_SPORTIVO (
-     CodiceFiscale char(16) not null,
-     Nome char(100) not null,
-     Cognome char(100) not null,
-     DataNascita char(100) not null,
-     Nazionalita char(100) not null,
-     Stipendio char(100) not null,
+     CodiceFiscale char(1) not null,
+     Nome char(1) not null,
+     Cognome char(1) not null,
+     DataNascita char(1) not null,
+     Nazionalita char(1) not null,
+     Stipendio char(1) not null,
      constraint ID_DIRETTORE_SPORTIVO_ID primary key (CodiceFiscale));
 
 create table FONDI (
-     IBAN char(100) not null,
-     Totale char(100) not null,
-     CodicePresidente char(100) not null,
-     CodiceDir char(100) not null,
+     IBAN char(1) not null,
+     Totale char(1) not null,
+     CodicePresidente char(1) not null,
+     CodiceDir char(1) not null,
      constraint ID_FONDI_ID primary key (IBAN));
 
 create table GIOCATORE (
-     CodiceFiscale char(16) not null,
-     Nome char(100) not null,
-     Cognome char(100) not null,
-     DataNascita char(100) not null,
-     Nazionalita char(100) not null,
-     Stipendio char(100) not null,
-     Infortunio char(100),
-     Espulsione char(100),
-     NomeSquadra char(100) not null,
+     CodiceFiscale char(1) not null,
+     Nome char(1) not null,
+     Cognome char(1) not null,
+     DataNascita char(1) not null,
+     Nazionalita char(1) not null,
+     Stipendio char(1) not null,
+     Infortunio char(1),
+     Espulsione char(1),
+     NomeSquadra char(1) not null,
      constraint ID_GIOCATORE_ID primary key (CodiceFiscale));
 
 create table INFO_TORNEO (
-     CodTorneo char(100) not null,
-     Spese char(100) not null,
-     TotaleFondi char(100) not null,
-     Vincitrice char(100),
-     PuntiPersi char(100) not null,
-     PuntiGuadagnati char(100) not null,
-     PunteggioMinimo char(100) not null,
-     PunteggioVittoria char(100) not null,
+     CodTorneo char(1) not null,
+     Spese char(1) not null,
+     TotaleFondi char(1) not null,
+     Vincitrice char(1),
+     PuntiPersi char(1) not null,
+     PuntiGuadagnati char(1) not null,
+     PunteggioMinimo char(1) not null,
+     PunteggioVittoria char(1) not null,
      constraint ID_INFO_TORNEO_ID primary key (CodTorneo));
 
 create table Infortuni (
-     CodiceTabellino char(100) not null,
-     Infortuni char(100) not null,
+     CodiceTabellino char(1) not null,
+     Infortuni char(1) not null,
      constraint ID_Infortuni_ID primary key (CodiceTabellino, Infortuni));
 
 create table Marcatori (
-     CodiceTabellino char(100) not null,
-     Marcatori char(100) not null,
+     CodiceTabellino char(1) not null,
+     Marcatori char(1) not null,
      constraint ID_Marcatori_ID primary key (CodiceTabellino, Marcatori));
 
 create table MERCATO_GIOCATORI (
-     CodiceGiocatore char(100) not null,
-     Durata char(100) not null,
-     Costo char(100) not null,
+     CodiceGiocatore char(1) not null,
+     Durata char(1) not null,
+     Costo char(1) not null,
      constraint ID_MERCATO_GIOCATORI_ID primary key (CodiceGiocatore, Durata));
 
 create table NUMERO (
-     NomeSquadra char(100) not null,
-     Numero char(100) not null,
-     CodiceFiscale char(100) not null,
-     Ruolo char(100) not null,
+     NomeSquadra char(1) not null,
+     Numero char(1) not null,
+     CodiceFiscale char(1) not null,
+     Ruolo char(1) not null,
      constraint ID_NUMERO_ID primary key (NomeSquadra, Numero),
      constraint SID_NUMER_GIOCA_ID unique (CodiceFiscale));
 
 create table PARTITA (
-     CodicePartita char(100) not null,
-     CodiceTabellino char(100) not null,
-     Risultato char(100),
-     Vincitrice char(100),
-     Biglietti char(100) not null,
-     PrezzoBiglietto char(100) not null,
-     NomeOspite char(100) not null,
-     NomeCasa char(100) not null,
-     CodiceStadio char(100) not null,
-     Giorno char(2) not null,
-     Mese char(2) not null,
-     Anno char(4) not null,
+     CodicePartita char(1) not null,
+     CodiceTabellino char(1) not null,
+     Risultato char(1),
+     Vincitrice char(1),
+     Biglietti char(1) not null,
+     PrezzoBiglietto char(1) not null,
+     NomeOspite char(1) not null,
+     NomeCasa char(1) not null,
+     CodiceStadio char(1) not null,
+     Giorno char(1) not null,
+     Mese char(1) not null,
+     Anno char(1) not null,
      constraint ID_PARTITA_ID primary key (CodicePartita),
      constraint SID_PARTI_TABEL_ID unique (CodiceTabellino));
 
 create table PRESIDENTE (
-     CodiceFiscale char(16) not null,
-     Nome char(100) not null,
-     Cognome char(100) not null,
-     DataNascita char(100) not null,
-     Nazionalita char(100) not null,
+     CodiceFiscale char(1) not null,
+     Nome char(1) not null,
+     Cognome char(1) not null,
+     DataNascita char(1) not null,
+     Nazionalita char(1) not null,
      constraint ID_PRESIDENTE_ID primary key (CodiceFiscale));
 
 create table SPONSOR (
-     Nome char(100) not null,
-     Quota char(100) not null,
-     DescContratto char(100) not null,
+     Nome char(1) not null,
+     Quota char(1) not null,
+     DescContratto char(1) not null,
      constraint ID_SPONSOR_ID primary key (Nome));
 
 create table SPONSOR_TORNEO (
-     Nome char(100) not null,
-     Contributo char(100) not null,
-     CodTorneo char(100) not null,
+     Nome char(1) not null,
+     Contributo char(1) not null,
+     CodTorneo char(1) not null,
      constraint ID_SPONSOR_TORNEO_ID primary key (Nome));
 
 create table SQUADRA (
-     Nome char(100) not null,
-     AnnoFondazione char(100) not null,
-     CittaRiferimento char(100) not null,
-     TrofeiVinti char(100) not null,
-     Quota_Iscrizione char(100) not null,
-     Punteggio char(100) not null,
-     PosClassifica char(100) not null,
+     Nome char(1) not null,
+     AnnoFondazione char(1) not null,
+     CittaRiferimento char(1) not null,
+     TrofeiVinti char(1) not null,
+     Quota_Iscrizione char(1) not null,
+     Punteggio char(1) not null,
+     PosClassifica char(1) not null,
      constraint ID_SQUADRA_ID primary key (Nome));
 
 create table STADIO (
-     CodiceStadio char(100) not null,
-     Nome char(100) not null,
-     Citta char(100) not null,
-     Capienza char(100) not null,
-     Affitto char(100) not null,
+     CodiceStadio char(1) not null,
+     Nome char(1) not null,
+     Citta char(1) not null,
+     Capienza char(1) not null,
+     Affitto char(1) not null,
      constraint ID_STADIO_ID primary key (CodiceStadio));
 
 create table STAFF (
-     CodiceFiscale char(100) not null,
-     Nome char(100) not null,
-     Cognome char(100) not null,
-     DataNascita char(100) not null,
-     Nazionalita char(100) not null,
-     Ruolo char(100) not null,
-     Stipendio char(100) not null,
-     CodiceAll char(100) not null,
+     CodiceFiscale char(1) not null,
+     Nome char(1) not null,
+     Cognome char(1) not null,
+     DataNascita char(1) not null,
+     Nazionalita char(1) not null,
+     Ruolo char(1) not null,
+     Stipendio char(1) not null,
+     CodiceAll char(1) not null,
      constraint ID_STAFF_ID primary key (CodiceFiscale));
 
 create table STAFF_PARTITA (
-     CodiceFiscale char(100) not null,
-     Nome char(100) not null,
-     Cognome char(100) not null,
-     DataNascita char(100) not null,
-     Nazionalita char(100) not null,
-     Ruolo char(100) not null,
-     Stipendio char(100) not null,
+     CodiceFiscale char(1) not null,
+     Nome char(1) not null,
+     Cognome char(1) not null,
+     DataNascita char(1) not null,
+     Nazionalita char(1) not null,
+     Ruolo char(1) not null,
+     Stipendio char(1) not null,
      constraint ID_STAFF_PARTITA_ID primary key (CodiceFiscale));
 
 create table SUPERVISIONE (
-     CodiceStaff char(100) not null,
-     CodicePartita char(100) not null,
+     CodiceStaff char(1) not null,
+     CodicePartita char(1) not null,
      constraint ID_SUPERVISIONE_ID primary key (CodicePartita, CodiceStaff));
 
 create table TABELLINO_STATISTICHE (
-     CodiceTabellino char(100) not null,
-     DataTab char(100) not null,
-     GoalOspite char(100) not null,
-     GoalCasa char(100) not null,
-     Pali char(100) not null,
-     Cartellini char(100) not null,
-     CodiceStaff char(100) not null,
+     CodiceTabellino char(1) not null,
+     Data char(1) not null,
+     GoalOspite char(1) not null,
+     GoalCasa char(1) not null,
+     Pali char(1) not null,
+     Cartellini char(1) not null,
+     CodiceStaff char(1) not null,
      constraint ID_TABELLINO_STATISTICHE_ID primary key (CodiceTabellino));
 
 create table TELEVISIONE (
-     Nome char(100) not null,
-     Contributo char(100) not null,
+     Nome char(1) not null,
+     Contributo char(1) not null,
      constraint ID_TELEVISIONE_ID primary key (Nome));
 
 create table TRAMITE (
-     CodiceDir char(100) not null,
-     CodiceGiocatore char(100) not null,
-     Durata char(100) not null,
+     CodiceDir char(1) not null,
+     CodiceGiocatore char(1) not null,
+     Durata char(1) not null,
      constraint ID_TRAMI_DIRET_ID primary key (CodiceDir));
 
 create table TRASMISSIONE (
-     NomeTV char(100) not null,
-     CodTorneo char(100) not null,
+     NomeTV char(1) not null,
+     CodTorneo char(1) not null,
      constraint ID_TRASMISSIONE_ID primary key (CodTorneo, NomeTV));
 
 

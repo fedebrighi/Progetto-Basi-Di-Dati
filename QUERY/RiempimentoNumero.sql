@@ -1,4 +1,4 @@
 INSERT INTO numero (NomeSquadra, Numero, CodiceFiscale, Ruolo) VALUES 
-('SquadraA', '10', 'CF12345678A', 'Attaccante'),
-('SquadraB', '5', 'CF87654321B', 'Difensore'),
-('SquadraC', '7', 'CF11223344C', 'Centrocampista');
+('Juventus', '10', 'CF0987654321', 'Attaccante'),
+('Inter', '5', 'CF1122334455', 'Difensore'),
+('Milan', '7', 'CF1234567890', 'Centrocampista');
