@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from app.db import create_connection
-from app.services.iscrizione import iscrizione_squadra
+from app.services.iscrizione_squadra import iscrizione_squadra
 
 class IscrizioneGUI:
     def __init__(self, root):
@@ -10,58 +10,63 @@ class IscrizioneGUI:
         self.create_widgets()
 
     def create_widgets(self):
-        # Label e Entry per il nome della squadra
-        self.label_nome = ttk.Label(self.root, text="Nome Squadra:")
-        self.label_nome.grid(column=0, row=0, padx=10, pady=10)
-        self.entry_nome = ttk.Entry(self.root)
-        self.entry_nome.grid(column=1, row=0, padx=10, pady=10)
+        frame = ttk.Frame(self.root, padding="10")
+        frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
 
-        # Label e Entry per l'anno di fondazione
-        self.label_anno = ttk.Label(self.root, text="Anno Fondazione:")
-        self.label_anno.grid(column=0, row=1, padx=10, pady=10)
-        self.entry_anno = ttk.Entry(self.root)
-        self.entry_anno.grid(column=1, row=1, padx=10, pady=10)
+        self.root.columnconfigure(0, weight=1)
+        self.root.rowconfigure(0, weight=1)
 
-        # Label e Entry per la città di riferimento
-        self.label_citta = ttk.Label(self.root, text="Città Riferimento:")
-        self.label_citta.grid(column=0, row=2, padx=10, pady=10)
-        self.entry_citta = ttk.Entry(self.root)
-        self.entry_citta.grid(column=1, row=2, padx=10, pady=10)
+        # Labels and Entry widgets
+        ttk.Label(frame, text="Nome Squadra:").grid(row=0, column=0, padx=5, pady=5, sticky=tk.W)
+        self.entry_nome = ttk.Entry(frame)
+        self.entry_nome.grid(row=0, column=1, padx=5, pady=5, sticky=(tk.W, tk.E))
 
-        # Label e Entry per la quota di iscrizione
-        self.label_quota = ttk.Label(self.root, text="Quota Iscrizione:")
-        self.label_quota.grid(column=0, row=3, padx=10, pady=10)
-        self.entry_quota = ttk.Entry(self.root)
-        self.entry_quota.grid(column=1, row=3, padx=10, pady=10)
+        ttk.Label(frame, text="Anno Fondazione:").grid(row=1, column=0, padx=5, pady=5, sticky=tk.W)
+        self.entry_anno = ttk.Entry(frame)
+        self.entry_anno.grid(row=1, column=1, padx=5, pady=5, sticky=(tk.W, tk.E))
 
-        # Label e Entry per il punteggio iniziale
-        self.label_punteggio = ttk.Label(self.root, text="Punteggio Iniziale:")
-        self.label_punteggio.grid(column=0, row=4, padx=10, pady=10)
-        self.entry_punteggio = ttk.Entry(self.root)
-        self.entry_punteggio.grid(column=1, row=4, padx=10, pady=10)
+        ttk.Label(frame, text="Città Riferimento:").grid(row=2, column=0, padx=5, pady=5, sticky=tk.W)
+        self.entry_citta = ttk.Entry(frame)
+        self.entry_citta.grid(row=2, column=1, padx=5, pady=5, sticky=(tk.W, tk.E))
 
-        # Label e Entry per i trofei vinti
-        self.label_trofei = ttk.Label(self.root, text="Trofei Vinti:")
-        self.label_trofei.grid(column=0, row=5, padx=10, pady=10)
-        self.entry_trofei = ttk.Entry(self.root)
-        self.entry_trofei.grid(column=1, row=5, padx=10, pady=10)
+        ttk.Label(frame, text="Quota Iscrizione:").grid(row=3, column=0, padx=5, pady=5, sticky=tk.W)
+        self.entry_quota = ttk.Entry(frame)
+        self.entry_quota.grid(row=3, column=1, padx=5, pady=5, sticky=(tk.W, tk.E))
 
-        # Bottone per iscrivere la squadra
-        self.btn_submit = ttk.Button(self.root, text="Iscrivi", command=self.submit)
-        self.btn_submit.grid(column=0, row=6, columnspan=2, padx=10, pady=10)
+        ttk.Label(frame, text="Trofei Vinti:").grid(row=4, column=0, padx=5, pady=5, sticky=tk.W)
+        self.entry_trofei = ttk.Entry(frame)
+        self.entry_trofei.grid(row=4, column=1, padx=5, pady=5, sticky=(tk.W, tk.E))
 
-    def submit(self):
-        nome_squadra = self.entry_nome.get()
-        anno_squadra = int(self.entry_anno.get())
-        citta_squadra = self.entry_citta.get()
-        quota_squadra = int(self.entry_quota.get())
-        punteggio_squadra = int(self.entry_punteggio.get())
-        trofei_vinti = int(self.entry_trofei.get())
+        # Iscrivi button
+        self.button_iscrivi = ttk.Button(frame, text="Iscrivi", command=self.iscrivi_squadra)
+        self.button_iscrivi.grid(row=5, column=0, columnspan=2, pady=10)
 
-        connection = create_connection()
-        iscrizione_squadra(connection, nome_squadra, anno_squadra, citta_squadra, quota_squadra, punteggio_squadra, trofei_vinti)
-        connection.close()
+        # Result label
+        self.result_label = ttk.Label(frame, text="")
+        self.result_label.grid(row=6, column=0, columnspan=2, pady=5)
 
-        # Messaggio di conferma
-        self.label_conferma = ttk.Label(self.root, text="Squadra iscritta con successo!")
-        self.label_conferma.grid(column=0, row=7, columnspan=2, padx=10, pady=10)
+        # Configure column weight for resizing
+        frame.columnconfigure(1, weight=1)
+
+    def iscrivi_squadra(self):
+        nome = self.entry_nome.get()
+        anno = self.entry_anno.get()
+        citta = self.entry_citta.get()
+        quota = self.entry_quota.get()
+        trofei = self.entry_trofei.get()
+
+        if nome and anno and citta and quota and trofei:
+            connection = create_connection()
+            if connection and connection.is_connected():
+                iscrizione_squadra(connection, nome, anno, citta, quota, trofei)
+                connection.close()
+                self.result_label.config(text="Squadra iscritta con successo!", foreground="green")
+            else:
+                self.result_label.config(text="Connessione al database non riuscita", foreground="red")
+        else:
+            self.result_label.config(text="Tutti i campi sono obbligatori", foreground="red")
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    IscrizioneGUI(root)
+    root.mainloop()

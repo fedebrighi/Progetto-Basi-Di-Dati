@@ -2,16 +2,12 @@ from app.db import fetch_query
 
 def get_classifica(connection):
     """
-    Recupera la classifica delle squadre dal database ordinata per punteggio in modo decrescente e posizione in classifica in modo crescente.
-
+    Recupera la classifica delle squadre dal database.
+    
     :param connection: Connessione al database.
-    :return: Lista di tuple contenenti nome squadra, punteggio e posizione in classifica.
+    :return: Lista di squadre in classifica.
     """
-    query = """
-    SELECT Nome, Punteggio, PosClassifica 
-    FROM squadra 
-    ORDER BY Punteggio DESC, PosClassifica ASC
-    """
-    print(f"Eseguendo la query: {query}")
-    return fetch_query(connection, query)
-
+    query = "SELECT Nome, Punteggio, PosClassifica FROM squadra ORDER BY Punteggio DESC, PosClassifica ASC"
+    result = fetch_query(connection, query)
+    print(f"Classifica recuperata dal database: {result}")  # Debug: stampa i risultati della query
+    return result
