@@ -4,11 +4,13 @@ from tkinter.font import Font
 from PIL import Image, ImageTk
 from app.gui.iscrizione_gui import IscrizioneGUI
 from app.gui.scambi_gui import ScambiGUI
-from app.gui.infortuni_gui import InfortuniGUI
+from app.gui.infortuni_menu_gui import InfortuniMenuGUI
 from app.gui.visualizza_squadre_gui import VisualizzaSquadreGUI
 from app.gui.visualizza_classifica_gui import VisualizzaClassificaGUI
 from app.gui.elimina_squadra_gui import EliminaSquadraGUI
 from app.gui.visualizza_giocatori_gui import VisualizzaGiocatoriGUI
+from app.gui.inserisci_giocatore_gui import InserisciGiocatoreGUI
+from app.gui.elimina_giocatore_gui import EliminaGiocatoreGUI
 
 class CampionatoApp:
     def __init__(self, root):
@@ -44,12 +46,13 @@ class CampionatoApp:
         buttons = [
             ("Iscrizione Squadra", self.open_iscrizione),
             ("Proporre Scambio Giocatori", self.open_scambi),
-            ("Registrare Infortunio", self.open_infortuni),
+            ("INFORTUNI", self.open_infortuni_menu),
             ("Visualizza Squadre", self.open_visualizza_squadre),
             ("Visualizza Classifica", self.open_visualizza_classifica),
             ("Eliminazione Squadra", self.open_eliminazione_squadra),
             ("Visualizza Giocatori", self.open_visualizza_giocatori),
-            ("Inserisci Giocatori nelle Squadre", self.inserisci_giocatori),
+            ("Inserisci Giocatori nelle Squadre", self.open_inserisci_giocatori),
+            ("Elimina Giocatori", self.open_elimina_giocatori),
             ("Blocca/Sblocca Giocatore Espulso", self.blocca_sblocca_giocatore),
             ("Registrazione Dettagli Partite", self.registra_partite),
             ("Organizzazione Partite tra Squadre", self.organizza_partite),
@@ -79,8 +82,8 @@ class CampionatoApp:
             self.visualizza_giocatori_gui = VisualizzaGiocatoriGUI(self.root)
         ScambiGUI(self.root, self.visualizza_giocatori_gui)
 
-    def open_infortuni(self):
-        InfortuniGUI(self.root)
+    def open_infortuni_menu(self):
+        InfortuniMenuGUI(self.root)
 
     def open_visualizza_squadre(self):
         VisualizzaSquadreGUI(self.root)
@@ -94,10 +97,13 @@ class CampionatoApp:
     def open_visualizza_giocatori(self):
         self.visualizza_giocatori_gui = VisualizzaGiocatoriGUI(self.root)
 
-    # Placeholder methods for new buttons
-    def inserisci_giocatori(self):
-        print("Inserisci Giocatori nelle Squadre")
+    def open_inserisci_giocatori(self):
+        InserisciGiocatoreGUI(self.root)
 
+    def open_elimina_giocatori(self):
+        EliminaGiocatoreGUI(self.root)
+
+    # Placeholder methods for new buttons
     def blocca_sblocca_giocatore(self):
         print("Blocca/Sblocca Giocatore Espulso")
 
