@@ -1,68 +1,29 @@
-from app.db import execute_query, fetch_query
+from app.db import fetch_query, execute_query
 
-def proponi_scambio(connection, id_giocatore_offerto, id_squadra_destinazione, id_giocatore_richiesto, id_squadra_proponente):
-    """
-    Proponi uno scambio di giocatori tra due squadre.
+def verifica_giocatore(connection, codice_fiscale, nome_squadra):
+    query = "SELECT COUNT(*) FROM giocatore WHERE CodiceFiscale = %s AND NomeSquadra = %s"
+    result = fetch_query(connection, query, (codice_fiscale, nome_squadra))
+    return result[0][0] > 0
 
-    :param connection: Connessione al database.
-    :param id_giocatore_offerto: ID del giocatore offerto per lo scambio.
-    :param id_squadra_destinazione: ID della squadra a cui è offerto il giocatore.
-    :param id_giocatore_richiesto: ID del giocatore richiesto in cambio.
-    :param id_squadra_proponente: ID della squadra che propone lo scambio.
-    """
-    query = f"""
-    INSERT INTO scambi (id_giocatore_offerto, id_squadra_destinazione, id_giocatore_richiesto, id_squadra_proponente)
-    VALUES ({id_giocatore_offerto}, {id_squadra_destinazione}, {id_giocatore_richiesto}, {id_squadra_proponente})
-    """
-    execute_query(connection, query)
+def scambio_giocatori(connection, cf_offerto, squadra_offerta, cf_richiesto, squadra_richiesta):
+    if verifica_giocatore(connection, cf_offerto, squadra_offerta) and verifica_giocatore(connection, cf_richiesto, squadra_richiesta):
+        try:
+            query_scambio_1 = "UPDATE giocatore SET NomeSquadra = %s WHERE CodiceFiscale = %s"
+            query_scambio_2 = "UPDATE giocatore SET NomeSquadra = %s WHERE CodiceFiscale = %s"
+            query_scambio_numero_1 = "UPDATE numero SET NomeSquadra = %s WHERE CodiceFiscale = %s"
+            query_scambio_numero_2 = "UPDATE numero SET NomeSquadra = %s WHERE CodiceFiscale = %s"
 
-def esegui_scambio(connection, id_giocatore_offerto, id_squadra_destinazione, id_giocatore_richiesto, id_squadra_proponente):
-    """
-    Esegui lo scambio di giocatori tra due squadre.
+            execute_query(connection, query_scambio_1, (squadra_richiesta, cf_offerto))
+            execute_query(connection, query_scambio_2, (squadra_offerta, cf_richiesto))
+            execute_query(connection, query_scambio_numero_1, (squadra_richiesta, cf_offerto))
+            execute_query(connection, query_scambio_numero_2, (squadra_offerta, cf_richiesto))
 
-    :param connection: Connessione al database.
-    :param id_giocatore_offerto: ID del giocatore offerto per lo scambio.
-    :param id_squadra_destinazione: ID della squadra a cui è offerto il giocatore.
-    :param id_giocatore_richiesto: ID del giocatore richiesto in cambio.
-    :param id_squadra_proponente: ID della squadra che propone lo scambio.
-    """
-    query1 = f"""
-    UPDATE giocatori
-    SET id_squadra = {id_squadra_destinazione}
-    WHERE id = {id_giocatore_offerto}
-    """
-    query2 = f"""
-    UPDATE giocatori
-    SET id_squadra = {id_squadra_proponente}
-    WHERE id = {id_giocatore_richiesto}
-    """
-    execute_query(connection, query1)
-    execute_query(connection, query2)
-
-def get_scambi_proposti(connection, id_squadra):
-    """
-    Recupera tutti gli scambi proposti da una squadra.
-
-    :param connection: Connessione al database.
-    :param id_squadra: ID della squadra proponente.
-    :return: Lista di scambi proposti.
-    """
-    query = f"""
-    SELECT * FROM scambi
-    WHERE id_squadra_proponente = {id_squadra}
-    """
-    return fetch_query(connection, query)
-
-def get_scambi_ricevuti(connection, id_squadra):
-    """
-    Recupera tutti gli scambi ricevuti da una squadra.
-
-    :param connection: Connessione al database.
-    :param id_squadra: ID della squadra destinazione.
-    :return: Lista di scambi ricevuti.
-    """
-    query = f"""
-    SELECT * FROM scambi
-    WHERE id_squadra_destinazione = {id_squadra}
-    """
-    return fetch_query(connection, query)
+            connection.commit()
+            print(f"Scambio effettuato: {cf_offerto} ora in {squadra_richiesta}, {cf_richiesto} ora in {squadra_offerta}")
+            return True
+        except Exception as e:
+            print(f"Errore durante lo scambio: {e}")
+            return False
+    else:
+        print("Giocatori non validi per lo scambio.")
+        return False
