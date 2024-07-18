@@ -7,6 +7,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import tkinter as tk
 from tkinter import ttk
 from tkinter.font import Font
+from PIL import Image, ImageTk
 from app.gui.iscrizione_gui import IscrizioneGUI
 from app.gui.scambi_gui import ScambiGUI
 from app.gui.infortuni_gui import InfortuniGUI
@@ -19,13 +20,13 @@ class CampionatoApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Campionato Manager")
-        self.root.geometry("600x600")
+        self.root.geometry("800x800")
         self.visualizza_giocatori_gui = None
         self.create_widgets()
 
     def create_widgets(self):
         title_font = Font(family="Helvetica", size=24, weight="bold")
-        button_font = Font(family="Helvetica", size=10)
+        button_font = Font(family="Helvetica", size=12)
 
         main_frame = ttk.Frame(self.root, padding="10")
         main_frame.grid(column=0, row=0, sticky=(tk.W, tk.E, tk.N, tk.S))
@@ -35,8 +36,16 @@ class CampionatoApp:
         main_frame.columnconfigure(0, weight=1)
         main_frame.rowconfigure(0, weight=1)
 
+        # Carica l'immagine
+        image = Image.open("LOGO.png")
+        image = image.resize((150, 150), Image.Resampling.LANCZOS)  # Ridimensiona l'immagine se necessario
+        self.photo = ImageTk.PhotoImage(image)
+
+        self.label_image = ttk.Label(main_frame, image=self.photo)
+        self.label_image.grid(column=0, row=0, columnspan=2, padx=10, pady=10)
+
         self.label = ttk.Label(main_frame, text="BENVENUTI NEL CHAMPION HUB", font=title_font)
-        self.label.grid(column=0, row=0, columnspan=2, padx=10, pady=20)
+        self.label.grid(column=0, row=1, columnspan=2, padx=10, pady=10)
 
         buttons = [
             ("Iscrizione Squadra", self.open_iscrizione),
@@ -59,10 +68,10 @@ class CampionatoApp:
         ]
 
         for i, (text, command) in enumerate(buttons):
-            button = tk.Button(main_frame, text=text, command=command, font=button_font)
-            button.grid(column=i % 2, row=i // 2 + 1, padx=10, pady=10, sticky=(tk.W, tk.E))
+            button = tk.Button(main_frame, text=text, command=command, font=button_font, width=30)
+            button.grid(column=i % 2, row=i // 2 + 2, padx=10, pady=10, sticky=(tk.W, tk.E))
 
-        for i in range(len(buttons) // 2 + 1):
+        for i in range(len(buttons) // 2 + 2):
             main_frame.rowconfigure(i, weight=1)
 
         main_frame.columnconfigure(0, weight=1)
