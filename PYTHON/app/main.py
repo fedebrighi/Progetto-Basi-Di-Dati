@@ -17,6 +17,9 @@ from app.gui.elimina_squadra_gui import EliminaSquadraGUI
 from app.gui.visualizza_giocatori_gui import VisualizzaGiocatoriGUI
 from app.gui.inserisci_giocatore_gui import InserisciGiocatoreGUI
 from app.gui.elimina_giocatore_gui import EliminaGiocatoreGUI
+from app.gui.blocca_sblocca_menu_gui import BloccaSbloccaMenuGUI
+from app.gui.gestione_sponsor_torneo_gui import GestioneSponsorTorneoGUI
+from app.gui.visualizza_ricavi_torneo_gui import VisualizzaRicaviTorneoGUI
 
 class CampionatoApp:
     def __init__(self, root):
@@ -24,6 +27,7 @@ class CampionatoApp:
         self.root.title("Campionato Manager")
         self.root.geometry("800x800")
         self.visualizza_giocatori_gui = None
+        self.cod_torneo = 1  # Codice del torneo per esempio
         self.create_widgets()
 
     def create_widgets(self):
@@ -52,20 +56,20 @@ class CampionatoApp:
         buttons = [
             ("Iscrizione Squadra", self.open_iscrizione),
             ("Proporre Scambio Giocatori", self.open_scambi),
-            ("INFORTUNI", self.open_infortuni_menu),
+            ("Infortuni", self.open_infortuni_menu),
             ("Visualizza Squadre", self.open_visualizza_squadre),
             ("Visualizza Classifica", self.open_visualizza_classifica),
             ("Eliminazione Squadra", self.open_eliminazione_squadra),
             ("Visualizza Giocatori", self.open_visualizza_giocatori),
             ("Inserisci Giocatori nelle Squadre", self.open_inserisci_giocatori),
             ("Elimina Giocatori", self.open_elimina_giocatori),
-            ("Blocca/Sblocca Giocatore Espulso", self.blocca_sblocca_giocatore),
+            ("Blocca/Sblocca Giocatore Espulso", self.open_blocca_sblocca_menu),
             ("Registrazione Dettagli Partite", self.registra_partite),
             ("Organizzazione Partite tra Squadre", self.organizza_partite),
             ("Gestione Sponsor Squadra", self.gestisci_sponsor_squadra),
-            ("Gestione Sponsor Torneo", self.gestisci_sponsor_torneo),
+            ("Gestione Sponsor Torneo", self.open_gestione_sponsor_torneo),
             ("Visualizza Calendario Partite", self.visualizza_calendario),
-            ("Visualizza Ricavi Torneo", self.visualizza_ricavi_torneo),
+            ("Visualizza Ricavi Torneo", self.open_visualizza_ricavi_torneo),
             ("Visualizza Ricavi Presidente", self.visualizza_ricavi_presidente),
             ("Visualizza Migliori Statistiche", self.visualizza_migliori_statistiche)
         ]
@@ -91,6 +95,9 @@ class CampionatoApp:
     def open_infortuni_menu(self):
         InfortuniMenuGUI(self.root)
 
+    def open_blocca_sblocca_menu(self):
+        BloccaSbloccaMenuGUI(self.root)
+
     def open_visualizza_squadre(self):
         VisualizzaSquadreGUI(self.root)
 
@@ -109,7 +116,12 @@ class CampionatoApp:
     def open_elimina_giocatori(self):
         EliminaGiocatoreGUI(self.root)
 
-    # Placeholder methods for new buttons
+    def open_gestione_sponsor_torneo(self):
+        GestioneSponsorTorneoGUI(self.root)
+
+    def open_visualizza_ricavi_torneo(self):
+        VisualizzaRicaviTorneoGUI(self.root, self.cod_torneo)
+
     def blocca_sblocca_giocatore(self):
         print("Blocca/Sblocca Giocatore Espulso")
 
@@ -121,9 +133,6 @@ class CampionatoApp:
 
     def gestisci_sponsor_squadra(self):
         print("Gestione Sponsor Squadra")
-
-    def gestisci_sponsor_torneo(self):
-        print("Gestione Sponsor Torneo")
 
     def visualizza_calendario(self):
         print("Visualizza Calendario Partite")

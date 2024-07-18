@@ -1,0 +1,28 @@
+PROGETTAZIONE DELL'APPLICAZIONE
+
+DESCRIZIONE DELL'ARCHITETTURA DELL'APPLICAZIONE REALIZZATA
+
+L'applicazione per interfacciarsi al database è stata realizzata in Python,sfruttandola libreria MySQL Connector per le connessioni al database.Il database risiede in locale e il DBMS utilizzato è MySQL.L'applicazione è una semplice applicazione Tkinter che fa uso di vari file python associati ad un proprio modulo,il quale ha il compito di portare a termine le query appoggiandosi alla classe DatabaseConnection
+
+Il progetto si trova seguendo il percorso di directory PYTHON/app.Qui ci si ritrova a quella che è la struttura portante del progetto,strutturata secondo il pattern MVC:
+
+-File GUI (app/gui): Ogni file Python in questa cartella definisce una finestra dell'interfaccia grafica utilizzando Tkinter. Ogni finestra ha un proprio modulo che gestisce le operazioni specifiche.
+
+-File di Model (app/models): Ogni file Python in questa cartella definisce le classi che corrispondono alle tabelle del database relative alle entità principali
+
+-File di Servizio (app/services): Ogni file Python in questa cartella definisce le operazioni e le query verso il database. Questi file sono utilizzati dai moduli della GUI per interagire con il database.
+
+Passiamo poi ai file fondamentali che permettono la corretta connessione al database e la possibilità di visualizzare a video la nostra applicazione:
+
+-main.py: La finestra principale dell'applicazione Tkinter che contiene i pulsanti per accedere alle varie funzionalità dell'applicazione.
+
+-db.py (DatabaseConnection): Gestisce la connessione al database MySQL utilizzando la libreria MySQL Connector. Contiene metodi per eseguire query e recuperare risultati.
+
+-config.py (Authentication): Contiene i dati di autenticazione al Database MySQL tra cui HOST,USER,PASSWORD,DBNAME
+
+Per accedere all'applicazione sarà necessario aver installato alcune librerie python che permettono la realizzazione della GUI e ci si dovrà poi spostare su PYTHON/app.
+Una volta qui si dovrà lanciare il comando "python main.py" e l'applicazione verrà lanciata con successo. Si aprirà quindi l'interfaccia grafica con nostro logo annesso che da il benvenuto all'utente e gli mostra le 18 funzionalità che il nostro progetto prevede di poter far eseguire all'utente,ognuna opportunamente spiegata all'interno della relazione.
+
+L’applicazione fornisce nel complesso le funzionalità richieste evidenziate nella fase di progettazione, includendo ulteriormente anche alcune banali operazioni non elencate.
+
+
