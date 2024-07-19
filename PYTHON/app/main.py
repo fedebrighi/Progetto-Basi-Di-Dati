@@ -22,6 +22,7 @@ from app.gui.gestione_sponsor_torneo_gui import GestioneSponsorTorneoGUI
 from app.gui.organizza_partite_gui import OrganizzaPartiteGUI
 from app.gui.visualizza_calendario_gui import VisualizzaCalendarioGUI
 from app.gui.gestione_sponsor_squadra_gui import GestioneSponsorSquadraGUI
+from app.gui.visualizza_ricavi_torneo_gui import VisualizzaRicaviTorneoGUI
 
 class CampionatoApp:
     def __init__(self, root):
@@ -66,6 +67,7 @@ class CampionatoApp:
             ("Registrazione Dettagli Partite", self.open_organizza_partite),
             ("Gestione Sponsor Squadra", self.open_gestione_sponsor_squadra),
             ("Gestione Sponsor Torneo", self.open_gestione_sponsor_torneo),
+            ("Visualizza Ricavi Torneo", self.open_visualizza_ricavi_torneo),
             ("Visualizza Calendario Partite", self.open_visualizza_calendario)
         ]
 
@@ -117,6 +119,8 @@ class CampionatoApp:
     def open_visualizza_calendario(self):
         VisualizzaCalendarioGUI(self.root)
 
+    def open_visualizza_ricavi_torneo(self):
+        VisualizzaRicaviTorneoGUI(self.root)
 if __name__ == "__main__":
     root = tk.Tk()
     app = CampionatoApp(root)
