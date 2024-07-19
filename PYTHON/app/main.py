@@ -20,6 +20,7 @@ from app.gui.elimina_giocatore_gui import EliminaGiocatoreGUI
 from app.gui.blocca_sblocca_menu_gui import BloccaSbloccaMenuGUI
 from app.gui.gestione_sponsor_torneo_gui import GestioneSponsorTorneoGUI
 from app.gui.visualizza_ricavi_torneo_gui import VisualizzaRicaviTorneoGUI
+from app.gui.organizza_partite_gui import OrganizzaPartiteGUI
 
 class CampionatoApp:
     def __init__(self, root):
@@ -27,7 +28,6 @@ class CampionatoApp:
         self.root.title("Campionato Manager")
         self.root.geometry("800x800")
         self.visualizza_giocatori_gui = None
-        self.cod_torneo = 1  # Codice del torneo per esempio
         self.create_widgets()
 
     def create_widgets(self):
@@ -56,7 +56,7 @@ class CampionatoApp:
         buttons = [
             ("Iscrizione Squadra", self.open_iscrizione),
             ("Proporre Scambio Giocatori", self.open_scambi),
-            ("Infortuni", self.open_infortuni_menu),
+            ("INFORTUNI", self.open_infortuni_menu),
             ("Visualizza Squadre", self.open_visualizza_squadre),
             ("Visualizza Classifica", self.open_visualizza_classifica),
             ("Eliminazione Squadra", self.open_eliminazione_squadra),
@@ -65,7 +65,7 @@ class CampionatoApp:
             ("Elimina Giocatori", self.open_elimina_giocatori),
             ("Blocca/Sblocca Giocatore Espulso", self.open_blocca_sblocca_menu),
             ("Registrazione Dettagli Partite", self.registra_partite),
-            ("Organizzazione Partite tra Squadre", self.organizza_partite),
+            ("Organizzazione Partite tra Squadre", self.open_organizza_partite),
             ("Gestione Sponsor Squadra", self.gestisci_sponsor_squadra),
             ("Gestione Sponsor Torneo", self.open_gestione_sponsor_torneo),
             ("Visualizza Calendario Partite", self.visualizza_calendario),
@@ -120,7 +120,10 @@ class CampionatoApp:
         GestioneSponsorTorneoGUI(self.root)
 
     def open_visualizza_ricavi_torneo(self):
-        VisualizzaRicaviTorneoGUI(self.root, self.cod_torneo)
+        VisualizzaRicaviTorneoGUI(self.root)
+
+    def open_organizza_partite(self):
+        OrganizzaPartiteGUI(self.root)
 
     def blocca_sblocca_giocatore(self):
         print("Blocca/Sblocca Giocatore Espulso")
@@ -136,9 +139,6 @@ class CampionatoApp:
 
     def visualizza_calendario(self):
         print("Visualizza Calendario Partite")
-
-    def visualizza_ricavi_torneo(self):
-        print("Visualizza Ricavi Torneo")
 
     def visualizza_ricavi_presidente(self):
         print("Visualizza Ricavi Presidente")
