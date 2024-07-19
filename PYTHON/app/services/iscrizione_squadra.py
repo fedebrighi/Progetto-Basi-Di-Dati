@@ -22,7 +22,7 @@ def iscrizione_squadra(connection, nome_squadra, anno_squadra, citta_squadra, qu
     INSERT INTO squadra (Nome, AnnoFondazione, CittaRiferimento, Quota_Iscrizione, TrofeiVinti, Punteggio, PosClassifica)
     VALUES (%s, %s, %s, %s, %s, %s, %s)
     """
-    PUNTEGGIO_INIZIALE = 0
+    PUNTEGGIO_INIZIALE = 10
     values = (nome_squadra, anno_squadra, citta_squadra, quota_squadra, trofei_vinti, PUNTEGGIO_INIZIALE, nuova_posizione)
     try:
         execute_query(connection, query, values)

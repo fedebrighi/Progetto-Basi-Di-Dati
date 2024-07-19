@@ -6,10 +6,10 @@ from app.services.scambi import scambio_giocatori
 
 
 class ScambiGUI:
-    def __init__(self, root, visualizza_giocatori_gui):
+    def __init__(self, root):
         self.root = tk.Toplevel(root)
         self.root.title("Proporre Scambio Giocatori")
-        self.visualizza_giocatori_gui = visualizza_giocatori_gui
+        self.visualizza_giocatori_gui = None
         self.create_widgets()
 
     def create_widgets(self):
@@ -64,6 +64,8 @@ class ScambiGUI:
                 if success:
                     self.result_label.config(text="Scambio effettuato con successo!", foreground="green")
                     print("Scambio effettuato con successo. Aggiornamento della visualizzazione dei giocatori.")
+                    if self.visualizza_giocatori_gui is None:
+                        self.visualizza_giocatori_gui = VisualizzaGiocatoriGUI(self.root)
                     self.visualizza_giocatori_gui.aggiorna_visualizzazione()
                 else:
                     self.result_label.config(text="Errore: Scambio non valido o non riuscito.", foreground="red")
@@ -74,6 +76,5 @@ class ScambiGUI:
 
 if __name__ == "__main__":
     root = tk.Tk()
-    visualizza_giocatori_gui = VisualizzaGiocatoriGUI(root)
-    ScambiGUI(root, visualizza_giocatori_gui)
+    ScambiGUI(root)
     root.mainloop()

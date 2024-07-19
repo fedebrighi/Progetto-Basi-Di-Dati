@@ -53,6 +53,21 @@ def inserisci_data(connection, giorno, mese, anno, codTorneo):
         connection.rollback()
         return False
 
+def aggiorna_punteggio_squadra(connection, nome_squadra, punteggio_da_aggiungere):
+    query = """
+    UPDATE squadra
+    SET Punteggio = Punteggio + %s
+    WHERE Nome = %s
+    """
+    values = (punteggio_da_aggiungere, nome_squadra)
+    try:
+        execute_query(connection, query, values)
+        connection.commit()
+        print(f"Punteggio aggiornato per {nome_squadra}: {punteggio_da_aggiungere}")
+    except Exception as e:
+        print(f"Errore durante l'aggiornamento del punteggio per {nome_squadra}: {e}")
+        connection.rollback()
+
 def inserisci_partita(connection, giorno, mese, anno, squadra_casa, squadra_trasferta, codice_stadio, codice_staff, cod_torneo):
     goal_casa, goal_ospite, risultato = genera_risultato_casuale()
     codice_partita = str(uuid.uuid4())[:8]
@@ -70,6 +85,18 @@ def inserisci_partita(connection, giorno, mese, anno, squadra_casa, squadra_tras
                 execute_query(connection, query, values)
                 connection.commit()
                 print(f"Partita inserita: {giorno}-{mese}-{anno}, {squadra_casa} vs {squadra_trasferta} con risultato {risultato}, Biglietti: {biglietti}, Prezzo: {prezzo_biglietto}")
+
+                # Aggiorna il punteggio delle squadre
+                if goal_casa > goal_ospite:
+                    aggiorna_punteggio_squadra(connection, squadra_casa, 3)
+                    aggiorna_punteggio_squadra(connection, squadra_trasferta, -3)
+                elif goal_casa < goal_ospite:
+                    aggiorna_punteggio_squadra(connection, squadra_casa, -3)
+                    aggiorna_punteggio_squadra(connection, squadra_trasferta, 3)
+                else:
+                    aggiorna_punteggio_squadra(connection, squadra_casa, 1)
+                    aggiorna_punteggio_squadra(connection, squadra_trasferta, 1)
+
                 return True
             except Exception as e:
                 print(f"Errore durante l'inserimento della partita: {e}")
@@ -79,7 +106,7 @@ def inserisci_partita(connection, giorno, mese, anno, squadra_casa, squadra_tras
         return False
 
 def get_partite(connection):
-    query = "SELECT Giorno, Mese, Anno, NomeCasa, NomeOspite, Risultato FROM partita"
+    query = "SELECT Giorno, Mese, Anno, NomeCasa, NomeOspite, Risultato FROM partita ORDER BY Anno, Mese, Giorno"
     try:
         return fetch_query(connection, query)
     except Exception as e:

@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from app.db import create_connection
-from app.services.organizza_partite import inserisci_partita, get_partite, inserisci_data
+from app.services.organizza_partite import inserisci_partita, get_partite
 
 class OrganizzaPartiteGUI:
     def __init__(self, root):
@@ -106,3 +106,8 @@ class OrganizzaPartiteGUI:
 
             for partita in partite:
                 self.tree.insert("", tk.END, values=partita)
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    OrganizzaPartiteGUI(root)
+    root.mainloop()
