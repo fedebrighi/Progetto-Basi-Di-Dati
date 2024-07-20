@@ -16,14 +16,29 @@ def elimina_squadra(connection, nome_squadra):
         print(f"Errore: La squadra '{nome_squadra}' non esiste nel database.")
         return
     
-    # Elimina la squadra dal database
-    query_delete = "DELETE FROM squadra WHERE Nome = %s"
-    values_delete = (nome_squadra,)
-    execute_query(connection, query_delete, values_delete)
-    connection.commit()
+    try:
+        cursor = connection.cursor()
 
-    # Aggiorna la PosClassifica per tutte le squadre
-    update_classifica(connection)
+        # Elimina le partite associate alla squadra
+        query_delete_partite_casa = "DELETE FROM partita WHERE NomeCasa = %s"
+        cursor.execute(query_delete_partite_casa, (nome_squadra,))
+
+        query_delete_partite_ospite = "DELETE FROM partita WHERE NomeOspite = %s"
+        cursor.execute(query_delete_partite_ospite, (nome_squadra,))
+
+        # Elimina la squadra dal database
+        query_delete = "DELETE FROM squadra WHERE Nome = %s"
+        cursor.execute(query_delete, (nome_squadra,))
+
+        # Aggiorna la PosClassifica per tutte le squadre
+        update_classifica(connection)
+        
+        connection.commit()
+        cursor.close()
+        print(f"Squadra '{nome_squadra}' eliminata con successo.")
+    except Exception as e:
+        connection.rollback()
+        print(f"Errore durante l'eliminazione della squadra '{nome_squadra}': {e}")
 
 def update_classifica(connection):
     """
