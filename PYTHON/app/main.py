@@ -23,6 +23,8 @@ from app.gui.visualizza_ricavi_torneo_gui import VisualizzaRicaviTorneoGUI
 from app.gui.organizza_partite_gui import OrganizzaPartiteGUI
 from app.gui.visualizza_calendario_gui import VisualizzaCalendarioGUI
 from app.gui.gestione_sponsor_squadra_gui import GestioneSponsorSquadraGUI
+from app.services.retrocessione import retrocessione_squadre
+from app.db import create_connection
 
 class CampionatoApp:
     def __init__(self, root):
@@ -95,6 +97,9 @@ class CampionatoApp:
 
         self.btn_visualizza_calendario = ttk.Button(main_frame, text="Visualizza Calendario Partite", command=self.open_visualizza_calendario)
         self.btn_visualizza_calendario.grid(column=1, row=8, padx=10, pady=10, sticky=(tk.W, tk.E))
+        
+        self.btn_retrocessione = ttk.Button(main_frame, text="Controlla Retrocessioni", command=self.controlla_retrocessioni)
+        self.btn_retrocessione.grid(column=0, row=9, columnspan=2, padx=10, pady=10, sticky=(tk.W, tk.E))
 
     def open_iscrizione(self):
         IscrizioneGUI(self.root)
@@ -139,6 +144,14 @@ class CampionatoApp:
     
     def open_visualizza_calendario(self):
         VisualizzaCalendarioGUI(self.root)
+        
+    def controlla_retrocessioni(self):
+        connection = create_connection()
+        if connection and connection.is_connected():
+            retrocessione_squadre(connection)
+            connection.close()
+        else:
+            print("Connessione al database non riuscita")
 
 if __name__ == "__main__":
     root = tk.Tk()
