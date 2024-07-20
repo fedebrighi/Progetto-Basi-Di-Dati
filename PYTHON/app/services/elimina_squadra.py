@@ -29,11 +29,19 @@ def update_classifica(connection):
     """
     Aggiorna la PosClassifica delle squadre in base al punteggio.
     """
-    query = """
-    SET @pos = 0;
+    query_init = "SET @pos = 0;"
+    query_update = """
     UPDATE squadra
     SET PosClassifica = (@pos := @pos + 1)
-    ORDER BY Punteggio DESC, Nome ASC;
+    ORDER BY Punteggio DESC;
     """
-    execute_query(connection, query)
-    connection.commit()
+    try:
+        cursor = connection.cursor()
+        cursor.execute(query_init)
+        cursor.execute(query_update)
+        connection.commit()
+        cursor.close()
+        print("Classifica aggiornata con successo.")
+    except Exception as e:
+        print(f"Errore durante l'aggiornamento della classifica: {e}")
+        connection.rollback()
