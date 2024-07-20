@@ -149,7 +149,7 @@ create table SQUADRA (
      CittaRiferimento char(100) not null,
      TrofeiVinti char(100) not null,
      Quota_Iscrizione char(100) not null,
-     Punteggio char(100) not null,
+     Punteggio int(100) not null,
      PosClassifica char(100) not null,
      constraint ID_SQUADRA_ID primary key (Nome));
 

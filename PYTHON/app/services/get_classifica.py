@@ -7,12 +7,13 @@ def get_classifica(connection):
     :param connection: Connessione al database.
     :return: Lista di squadre in classifica.
     """
+    query1 = "SET @row_number = 0;"
     query = """
-    SELECT Nome, Punteggio, PosClassifica 
-    FROM squadra 
-    ORDER BY Punteggio DESC, PosClassifica ASC
+    SELECT Nome, Punteggio, (@row_number := @row_number + 1) AS PosClassifica
+    FROM squadra ORDER BY 
+    Punteggio DESC;
     """
+    fetch_query(connection, query1)
     result = fetch_query(connection, query)
     print(f"Classifica recuperata dal database: {result}")  # Debug: stampa i risultati della query
     return result
-
