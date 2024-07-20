@@ -4,7 +4,6 @@ from app.db import fetch_query, execute_query
 def iscrizione_squadra(connection, nome_squadra, anno_squadra, citta_squadra, quota_squadra, trofei_vinti):
     """
     Iscrive una nuova squadra nel database.
-    
     :param connection: Connessione al database.
     :param nome_squadra: Nome della squadra.
     :param anno_squadra: Anno di fondazione della squadra.
